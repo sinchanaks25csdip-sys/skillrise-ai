@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKILLRISE AI — Youth Skill-Gap & Employability Analyzer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            deepBlack: '#080711',
+            midnightPurple: '#160B2A',
+            electricPurple: '#8B35E8',
+            sunsetOrange: '#FF7417',
+            sunriseRed: '#F04458',
+            neonPink: '#F044A5',
+            softWhite: '#FFF0E8',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Three.js CDN for 3D WebGL Rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7417'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+</head>
+<body class="antialiased min-h-screen flex flex-col select-none">
+
+  <!-- =========================================================================
+       GLOBAL NAVIGATION HEADER
+       ========================================================================= -->
+  <header class="sticky top-0 z-50 bg-[#080711]/85 backdrop-blur-xl border-b border-purple-900/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo & Spark -->
+      <div class="flex items-center gap-3 cursor-pointer" data-nav="landing">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-sunset-orange via-sunrise-red to-electric-purple flex items-center justify-center text-white shadow-[0_0_20px_rgba(255,116,23,0.5)] border border-white/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-black tracking-tight text-soft-white">SKILLRISE</span>
+            <span class="text-xs font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-sunset-orange to-neon-pink text-white uppercase tracking-wider">AI</span>
+          </div>
+          <p class="text-[10px] text-purple-300 font-semibold tracking-wide">YOUTH SKILL-GAP & EMPLOYABILITY</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-bold text-slate-300">
+        <button data-nav="landing" class="hover:text-sunset-orange transition">Home</button>
+        <button data-nav="dashboard" class="hover:text-sunset-orange transition">Platform Features</button>
+        <button data-nav="dashboard" class="hover:text-sunset-orange transition">Market Insights</button>
+        <button data-nav="dashboard" class="hover:text-sunset-orange transition">Free Roadmaps</button>
+      </nav>
+
+      <!-- Auth Actions -->
+      <div class="flex items-center gap-3">
+        <button data-nav="signin" class="btn-glass-subtle text-xs py-2 px-4 font-bold">
+          Sign In
+        </button>
+        <button data-nav="create-account" class="btn-glow-sunrise text-xs py-2 px-5 font-black">
+          <span>Get Started Free</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       VIEW 1: CINEMATIC 3D LANDING PAGE & HERO SECTION
+       ========================================================================= -->
+  <main id="view-landing" class="flex-1 w-full">
+    
+    <!-- Hero Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- LEFT SIDE: High-Impact Typography & Action Pillars -->
+        <div class="lg:col-span-6 space-y-7 z-10">
+          
+          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-midnight-purple/80 border border-purple-500/30 text-xs font-bold text-purple-300 shadow-md">
+            <span class="w-2 h-2 rounded-full bg-sunset-orange animate-ping"></span>
+            <span>UN SDG Target 8.6 & 8.2 Certified Initiative</span>
+          </div>
+
+          <!-- Main Heading -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-soft-white leading-[1.08] tracking-tight">
+            YOUR SKILLS TODAY.<br>
+            <span class="text-gradient-sunrise">YOUR FUTURE TOMORROW.</span>
+          </h1>
+
+          <!-- Subheading -->
+          <p class="text-sm sm:text-base text-purple-200/90 max-w-xl font-medium leading-relaxed">
+            Discover your skill gaps. Master industry-demanded skills. Transform your potential into career opportunities with AI.
+          </p>
+
+          <!-- Three Glowing Buttons -->
+          <div class="flex flex-wrap items-center gap-3.5 pt-2">
+            <button id="btn-hero-get-started" class="btn-glow-sunrise text-sm py-3.5 px-7">
+              <span>Get Started – Create Account</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            </button>
+            <button id="btn-hero-explore" class="btn-glow-purple text-sm py-3.5 px-6">
+              <span>Explore Features</span>
+            </button>
+            <button id="btn-hero-signin" class="btn-glass-subtle text-sm py-3.5 px-5">
+              <span>Sign In</span>
+            </button>
+          </div>
+
+          <!-- 3 Value Proposition Bullets -->
+          <div class="pt-6 border-t border-purple-900/40 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-bold text-slate-300">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-sunset-orange/20 border border-sunset-orange/40 flex items-center justify-center text-sunset-orange">✓</div>
+              <span>AI-powered skill analysis</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-neon-pink/20 border border-neon-pink/40 flex items-center justify-center text-neon-pink">🗺️</div>
+              <span>Personalized learning roadmap</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-electric-purple/20 border border-electric-purple/40 flex items-center justify-center text-electric-purple">📊</div>
+              <span>Industry-demand insights</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE: 3D CHARACTER TRANSFORMATION SCENE -->
+        <div class="lg:col-span-6">
+          <div class="scene-3d-wrapper flex flex-col justify-between p-4">
+            
+            <!-- Stage Selector Navigation Bar -->
+            <div class="flex items-center justify-between z-20 gap-2 flex-wrap bg-[#080711]/70 backdrop-blur-md p-2 rounded-2xl border border-purple-900/50">
+              <div class="flex items-center gap-1.5">
+                <button class="stage-nav-pill active" data-stage="1">Stage 1: Limited</button>
+                <button class="stage-nav-pill" data-stage="2">Stage 2: Learning</button>
+                <button class="stage-nav-pill" data-stage="3">Stage 3: Career Ready</button>
+              </div>
+              <button id="btn-auto-morph" class="text-[11px] font-bold text-sunset-orange hover:text-white px-2.5 py-1 rounded-full border border-sunset-orange/40 hover:bg-sunset-orange/20 transition">
+                ▶ Auto Morph Story
+              </button>
+            </div>
+
+            <!-- The WebGL Canvas is injected here -->
+            <div id="scene-3d-container" class="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"></div>
+
+            <!-- Stage Description Card -->
+            <div class="z-20 glass-panel p-3.5 border-purple-500/30 bg-[#080711]/85 backdrop-blur-md max-w-md">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="w-2.5 h-2.5 rounded-full bg-sunset-orange animate-pulse"></span>
+                <h4 id="stage-title-text" class="text-xs font-black text-soft-white uppercase tracking-wider">
+                  Stage 1: Limited Knowledge & Exploration
+                </h4>
+              </div>
+              <p id="stage-description-text" class="text-[11px] text-purple-200 font-medium leading-relaxed">
+                Uncertainty in a rapidly shifting market. Surrounded by basic textbook concepts, unguided code snippets, and unmapped career paths.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Features Banner -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-purple-900/30">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-black uppercase tracking-widest text-sunset-orange">Bridging the Opportunity Gap</span>
+        <h2 class="text-3xl font-black text-soft-white mt-2">
+          From Academic Knowledge to <span class="text-gradient-sunrise">Industry Readiness</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-purple-200 mt-2 font-medium">
+          SkillRise AI scans your current resume against hundreds of live industry vacancies to chart your fastest path to high-earning employment.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-panel p-6 hover:border-sunset-orange/60 transition group cursor-pointer" data-nav="dashboard">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sunset-orange to-sunrise-red flex items-center justify-center text-white text-xl mb-4 shadow-[0_0_15px_rgba(255,116,23,0.4)]">
+            🎯
+          </div>
+          <h3 class="text-base font-extrabold text-soft-white mb-1.5 group-hover:text-sunset-orange transition">
+            Deep NLP Skill Gap Analysis
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Extracts both technical competencies and soft skills from resumes with contextual n-gram parsing, comparing against regional job requirements.
+          </p>
+        </div>
+
+        <div class="glass-panel p-6 hover:border-neon-pink/60 transition group cursor-pointer" data-nav="dashboard">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-neon-pink to-electric-purple flex items-center justify-center text-white text-xl mb-4 shadow-[0_0_15px_rgba(240,68,165,0.4)]">
+            🗺️
+          </div>
+          <h3 class="text-base font-extrabold text-soft-white mb-1.5 group-hover:text-neon-pink transition">
+            Zero-Cost 3D Learning Roadmaps
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Every identified gap is paired with 100% free accredited courses from Harvard CS50, freeCodeCamp, Microsoft Learn, Kaggle, and UN CC:Learn.
+          </p>
+        </div>
+
+        <div class="glass-panel p-6 hover:border-electric-purple/60 transition group cursor-pointer" data-nav="dashboard">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-electric-purple to-sunset-orange flex items-center justify-center text-white text-xl mb-4 shadow-[0_0_15px_rgba(139,53,232,0.4)]">
+            📊
+          </div>
+          <h3 class="text-base font-extrabold text-soft-white mb-1.5 group-hover:text-electric-purple transition">
+            Live Regional Labor Insights
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Real-time radar charts and demand curves tracking rising salaries and openings in AI, Web Engineering, and Green Tech microgrids.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       VIEW 2: SPLIT-SCREEN AUTHENTICATION (SIGN IN & CREATE ACCOUNT)
+       ========================================================================= -->
+  <main id="view-auth" class="hidden flex-1 w-full flex items-center justify-center p-4 py-12">
+    <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-12 rounded-3xl overflow-hidden glass-panel border border-purple-500/30 shadow-2xl">
+      
+      <!-- LEFT SIDE: 3D Sunrise Graphic & Inspiring Mission Statement -->
+      <div class="md:col-span-5 p-8 bg-gradient-to-br from-midnight-purple via-[#160B2A] to-deep-black flex flex-col justify-between border-b md:border-b-0 md:border-r border-purple-900/40 relative overflow-hidden">
+        <div class="relative z-10">
+          <div class="flex items-center gap-2 mb-6 cursor-pointer" data-nav="landing">
+            <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sunset-orange to-sunrise-red flex items-center justify-center text-white font-black text-xs">SR</span>
+            <span class="font-black text-base tracking-tight text-soft-white">SKILLRISE AI</span>
+          </div>
+          <h3 class="text-2xl font-black text-soft-white leading-tight">
+            Your journey to a <span class="text-gradient-sunrise">better career</span> starts here.
+          </h3>
+          <p class="text-xs text-purple-200 mt-3 font-medium leading-relaxed">
+            Join thousands of ambitious youth mastering industry requirements, bridging skill gaps, and unlocking high-productivity employment.
+          </p>
+        </div>
+
+        <!-- Floating Decorative Tech Elements -->
+        <div class="relative z-10 mt-8 pt-6 border-t border-purple-900/40 text-[11px] text-slate-300 space-y-2">
+          <div class="flex items-center gap-2 text-sunset-orange font-bold">
+            <span>✨</span> 100% Free Accredited Pathways
+          </div>
+          <div class="flex items-center gap-2 text-neon-pink font-bold">
+            <span>🎯</span> Targeted Labor Market Matching
+          </div>
+          <div class="flex items-center gap-2 text-purple-300 font-bold">
+            <span>🌱</span> Supporting UN SDG 8.6 & 8.2
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Dark Glassmorphic Form Card -->
+      <div class="md:col-span-7 p-8 sm:p-10 bg-[#080711]/90 backdrop-blur-xl flex flex-col justify-center">
+        <div class="mb-6">
+          <h2 id="auth-form-title" class="text-2xl font-black text-soft-white">Welcome Back to SkillRise</h2>
+          <p id="auth-form-subtitle" class="text-xs text-purple-300 mt-1">Sign in to access your AI skill gap analyzer & roadmap.</p>
+        </div>
+
+        <!-- Social Authentication Buttons -->
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <button class="btn-social-auth btn-glass-subtle text-xs py-2.5 px-3 flex items-center justify-center gap-2 w-full font-bold" data-provider="google">
+            <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/><path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.7s.1-1.9.4-2.7L1.6 6.4C.6 8.3 0 10.1 0 12s.6 3.7 1.6 5.6l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 15.9C3.5 19.7 7.4 23 12 23z"/></svg>
+            <span>Google</span>
+          </button>
+          <button class="btn-social-auth btn-glass-subtle text-xs py-2.5 px-3 flex items-center justify-center gap-2 w-full font-bold" data-provider="github">
+            <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>GitHub</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 mb-6">
+          <div class="flex-1 h-px bg-purple-900/40"></div>
+          <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">or with email</span>
+          <div class="flex-1 h-px bg-purple-900/40"></div>
+        </div>
+
+        <!-- Form Fields -->
+        <form id="auth-main-form" class="space-y-4">
+          <div id="auth-register-fields" class="hidden space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Full Name</label>
+              <input type="text" id="auth-name" class="w-full text-xs p-3 rounded-xl bg-midnight-purple border border-purple-800/60 text-soft-white outline-none focus:border-sunset-orange" placeholder="e.g. Aarav Sharma">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Email Address</label>
+            <input type="email" id="auth-email" required class="w-full text-xs p-3 rounded-xl bg-midnight-purple border border-purple-800/60 text-soft-white outline-none focus:border-sunset-orange" placeholder="name@email.com" value="aarav.sharma@aimail.com">
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-bold text-slate-300">Password</label>
+              <a href="#" class="text-[11px] text-sunset-orange hover:underline font-semibold">Forgot?</a>
+            </div>
+            <input type="password" id="auth-password" required class="w-full text-xs p-3 rounded-xl bg-midnight-purple border border-purple-800/60 text-soft-white outline-none focus:border-sunset-orange" placeholder="••••••••" value="password123">
+          </div>
+
+          <div class="flex items-center gap-2 pt-1 text-xs text-slate-400">
+            <input type="checkbox" id="auth-remember" class="rounded text-sunset-orange focus:ring-sunset-orange bg-midnight-purple" checked>
+            <label for="auth-remember" class="font-medium">Remember my session</label>
+          </div>
+
+          <button type="submit" id="btn-auth-submit" class="btn-glow-sunrise w-full py-3.5 text-xs font-black justify-center mt-2">
+            Sign In to Dashboard
+          </button>
+        </form>
+
+        <!-- Demo Accounts Quick Switcher -->
+        <div class="mt-6 pt-5 border-t border-purple-900/30 flex items-center justify-between text-xs">
+          <span class="text-slate-400 font-semibold">Instant Demo Login:</span>
+          <div class="flex items-center gap-2">
+            <button id="btn-demo-student" class="text-[11px] font-bold text-sunset-orange hover:underline">Student</button>
+            <span class="text-purple-800">&bull;</span>
+            <button id="btn-demo-recruiter" class="text-[11px] font-bold text-neon-pink hover:underline">Recruiter</button>
+          </div>
+        </div>
+
+        <div class="mt-4 text-center text-xs text-slate-400">
+          <span id="auth-switch-prompt">Don't have an account yet?</span>
+          <a href="#" id="auth-switch-link" class="text-sunset-orange font-bold hover:underline ml-1" data-target-auth="create-account">Create Account</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       VIEW 3: USER DASHBOARD (AUTHENTICATED PORTAL)
+       ========================================================================= -->
+  <main id="view-dashboard" class="hidden flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- SIDEBAR NAVIGATION (Col 3) -->
+      <aside class="lg:col-span-3 space-y-4">
+        
+        <!-- User Profile Card -->
+        <div class="glass-panel p-5 border-purple-500/30">
+          <div class="flex items-center gap-3">
+            <div class="user-display-avatar text-2xl w-12 h-12 rounded-2xl bg-gradient-to-tr from-sunset-orange to-sunrise-red flex items-center justify-center shadow-md">
+              👨‍🎓
+            </div>
+            <div class="truncate">
+              <h4 class="user-display-name text-sm font-extrabold text-soft-white truncate">Aarav Sharma</h4>
+              <p class="user-display-role text-[11px] text-sunset-orange font-bold truncate">Computer Science Graduate</p>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-purple-900/40 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+            <span>Status:</span>
+            <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Active Aspirant
+            </span>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="glass-panel p-3 border-purple-900/40 space-y-1">
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="overview">
+            <span>📊</span> <span>Overview</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="resume">
+            <span>📄</span> <span>My Resume</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="skills">
+            <span>🎯</span> <span>Skill Gap Analysis</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="market">
+            <span>🌐</span> <span>Job Market Insights</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="roadmap">
+            <span>🗺️</span> <span>Learning Roadmap</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="jobs">
+            <span>💼</span> <span>Recommended Jobs</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="progress">
+            <span>📈</span> <span>My Progress</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left" data-dash-tab="settings">
+            <span>⚙️</span> <span>Settings</span>
+          </button>
+          <button class="dashboard-nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold border-l-2 transition text-left text-rose-400 hover:text-rose-300" data-dash-tab="logout">
+            <span>🚪</span> <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN DASHBOARD CONTENT AREA (Col 9) -->
+      <section class="lg:col-span-9 space-y-6">
+
+        <!-- 1. DASHBOARD SUB-TAB: OVERVIEW -->
+        <div id="dash-pane-overview" class="dash-pane space-y-6">
+          
+          <!-- Top Greeting & Target Banner -->
+          <div class="glass-panel p-6 bg-gradient-to-r from-midnight-purple via-midnight-card to-deep-black border-purple-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div class="text-xs font-black uppercase text-sunset-orange tracking-widest">SkillRise AI Portal</div>
+              <h2 class="text-2xl font-black text-soft-white mt-0.5">Welcome, <span class="user-display-name">Aarav</span>!</h2>
+              <p class="text-xs text-purple-200 mt-1 font-medium">
+                Target Role Benchmark: <strong id="overview-target-role" class="text-sunset-orange">AI & Machine Learning Associate</strong>
+              </p>
+            </div>
+            <div>
+              <button onclick="document.querySelector('[data-dash-tab=\'resume\']').click()" class="btn-glow-sunrise text-xs py-2.5 px-4">
+                <span>Rescan Resume</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 6 Stat Cards Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div class="glass-panel p-4">
+              <span class="text-[10px] font-black uppercase text-purple-300">Total Skills Identified</span>
+              <div id="overview-total-skills" class="text-2xl font-black text-soft-white mt-1">14</div>
+              <span class="text-[10px] text-emerald-400 font-bold">NLP Verified</span>
+            </div>
+
+            <div class="glass-panel p-4 bg-sunset-orange/10 border-sunset-orange/30">
+              <span class="text-[10px] font-black uppercase text-sunset-orange">Skill Match Rating</span>
+              <div id="overview-match-pct" class="text-2xl font-black text-sunset-orange mt-1">74%</div>
+              <span class="text-[10px] text-purple-300 font-bold">Interview Ready</span>
+            </div>
+
+            <div class="glass-panel p-4 bg-rose-950/20 border-rose-500/30">
+              <span class="text-[10px] font-black uppercase text-rose-300">Missing Critical Skills</span>
+              <div id="overview-missing-count" class="text-2xl font-black text-rose-400 mt-1">3</div>
+              <span class="text-[10px] text-rose-300 font-bold">Blocks Recruiter Match</span>
+            </div>
+
+            <div class="glass-panel p-4">
+              <span class="text-[10px] font-black uppercase text-purple-300">Free Courses Assigned</span>
+              <div id="overview-course-count" class="text-2xl font-black text-soft-white mt-1">6</div>
+              <span class="text-[10px] text-emerald-400 font-bold">100% Free Certs</span>
+            </div>
+
+            <div class="glass-panel p-4">
+              <span class="text-[10px] font-black uppercase text-purple-300">Roadmap Progress</span>
+              <div class="text-2xl font-black text-soft-white mt-1">35%</div>
+              <div class="w-full bg-purple-900/40 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                <div class="bg-gradient-to-r from-sunset-orange to-neon-pink h-full" style="width: 35%;"></div>
+              </div>
+            </div>
+
+            <div class="glass-panel p-4">
+              <span class="text-[10px] font-black uppercase text-purple-300">Suitable Regional Jobs</span>
+              <div id="overview-jobs-count" class="text-2xl font-black text-soft-white mt-1">108</div>
+              <span class="text-[10px] text-sunset-orange font-bold">Active Openings</span>
+            </div>
+          </div>
+
+          <!-- Quick Action Panels: Priority Missing Skills + Recommended Next Steps -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-panel p-5">
+              <h3 class="text-sm font-extrabold text-soft-white mb-2 flex items-center justify-between">
+                <span>Immediate Skill Hurdles</span>
+                <button onclick="document.querySelector('[data-dash-tab=\'skills\']').click()" class="text-xs text-sunset-orange hover:underline font-bold">Full Matrix &rarr;</button>
+              </h3>
+              <p class="text-xs text-slate-400 mb-3">Closing these 3 specific requirements will maximize interview callbacks:</p>
+              <div id="overview-missing-tags" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div class="glass-panel p-5">
+              <h3 class="text-sm font-extrabold text-soft-white mb-2 flex items-center justify-between">
+                <span>Recommended Learning Action</span>
+                <button onclick="document.querySelector('[data-dash-tab=\'roadmap\']').click()" class="text-xs text-sunset-orange hover:underline font-bold">View Roadmap &rarr;</button>
+              </h3>
+              <p class="text-xs text-slate-400 mb-3">Next recommended milestone on your AI career journey:</p>
+              <div class="p-3 rounded-xl bg-midnight-purple border border-purple-800/60 flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-xs text-soft-white">Natural Language Processing with Transformers</div>
+                  <div class="text-[11px] text-purple-300">Hugging Face &bull; Free Certificate &bull; ~20 hrs</div>
+                </div>
+                <a href="https://huggingface.co/learn/nlp-course/" target="_blank" class="btn-glow-sunrise text-xs py-1.5 px-3">Start</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. DASHBOARD SUB-TAB: MY RESUME -->
+        <div id="dash-pane-resume" class="dash-pane hidden space-y-6">
+          <div class="glass-panel p-6">
+            <div class="flex items-center justify-between pb-4 border-b border-purple-900/30 mb-5 flex-wrap gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-soft-white">AI 3D Resume Scanner</h3>
+                <p class="text-xs text-purple-300">Upload your PDF or DOCX resume, or paste plain text to extract competencies via NLP.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-400">Demo Presets:</span>
+                <button class="btn-preset-profile px-2.5 py-1 text-xs font-bold rounded-lg bg-midnight-purple border border-purple-700 text-purple-200 hover:text-white" data-preset="cs_graduate">CS Grad</button>
+                <button class="btn-preset-profile px-2.5 py-1 text-xs font-bold rounded-lg bg-midnight-purple border border-purple-700 text-purple-200 hover:text-white" data-preset="self_taught_web_dev">Web Dev</button>
+                <button class="btn-preset-profile px-2.5 py-1 text-xs font-bold rounded-lg bg-midnight-purple border border-purple-700 text-purple-200 hover:text-white" data-preset="junior_data_analyst">Data Analyst</button>
+                <button class="btn-preset-profile px-2.5 py-1 text-xs font-bold rounded-lg bg-midnight-purple border border-purple-700 text-emerald-300 hover:text-white" data-preset="vocational_green_tech">Green Tech</button>
+              </div>
+            </div>
+
+            <!-- Upload Dropzone & Text Area -->
+            <div class="relative">
+              <div id="dash-resume-dropzone" class="p-6 text-center cursor-pointer mb-4 rounded-2xl border-2 border-dashed border-purple-800/60 hover:border-sunset-orange bg-midnight-purple/40 transition">
+                <input type="file" id="dash-resume-input" class="hidden" accept=".pdf,.docx,.txt,.md">
+                <div class="flex flex-col items-center gap-2">
+                  <div class="w-10 h-10 rounded-full bg-sunset-orange/20 text-sunset-orange flex items-center justify-center font-bold text-lg">📁</div>
+                  <span class="text-xs font-bold text-soft-white">Drop your Resume File (.pdf, .docx, .txt) or click to browse</span>
+                  <span class="text-[10px] text-purple-400">Directly scanned and parsed with client-side NLP tokenization</span>
+                </div>
+              </div>
+
+              <!-- Scanner Animation Overlay (Shown while scanning) -->
+              <div id="resume-scan-animation-overlay" class="hidden absolute inset-0 bg-[#080711]/90 backdrop-blur-md rounded-2xl flex flex-col items-center justify-center p-6 z-30">
+                <div class="laser-scanner"></div>
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sunset-orange to-neon-pink flex items-center justify-center text-white text-2xl shadow-[0_0_25px_rgba(255,116,23,0.7)] animate-bounce mb-4">
+                  ⚡
+                </div>
+                <h4 class="text-sm font-black text-soft-white mb-2">AI Neural Parsing in Progress...</h4>
+                <p id="resume-scan-status-text" class="text-xs text-purple-300 font-mono mb-4">Extracting technical & algorithmic competencies...</p>
+                <div class="w-64 bg-midnight-purple h-2 rounded-full overflow-hidden border border-purple-800">
+                  <div id="resume-scan-progress-bar" class="h-full bg-gradient-to-r from-sunset-orange to-neon-pink w-0 transition-all duration-300"></div>
+                </div>
+              </div>
+
+              <textarea
+                id="dash-resume-textarea"
+                rows="7"
+                class="w-full text-xs font-mono p-4 rounded-xl bg-midnight-purple/80 border border-purple-900/60 text-soft-white outline-none focus:border-sunset-orange"
+                placeholder="Or paste your raw resume text here..."
+              ></textarea>
+            </div>
+
+            <!-- Action Scan Button -->
+            <div class="flex items-center justify-between mt-4 pt-3 border-t border-purple-900/30">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-400">Target Role:</span>
+                <select id="dash-target-role-select" class="text-xs font-bold p-2 rounded-lg bg-midnight-purple border border-purple-800 text-soft-white outline-none">
+                  <option value="ai_engineer">AI & Machine Learning Associate ($72k-$96k)</option>
+                  <option value="fullstack_dev">Full-Stack Web Developer ($65k-$88k)</option>
+                  <option value="green_tech_spec">Clean Energy & Green Tech Specialist ($58k-$82k)</option>
+                  <option value="cloud_devops_eng">Junior Cloud & DevOps Associate ($68k-$92k)</option>
+                </select>
+              </div>
+
+              <button id="btn-run-ai-scan" class="btn-glow-sunrise text-xs py-2.5 px-6 font-black">
+                <span>Run AI Skill Scan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Extracted Resume Details Card -->
+          <div class="glass-panel p-6 space-y-4">
+            <h4 class="text-sm font-black text-soft-white pb-3 border-b border-purple-900/30">
+              Extracted Profile Information
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <span class="text-slate-400 font-bold block mb-1">Candidate Name:</span>
+                <span id="parsed-name" class="font-extrabold text-soft-white text-sm">Aarav Sharma</span>
+              </div>
+              <div>
+                <span class="text-slate-400 font-bold block mb-1">Education Level:</span>
+                <span id="parsed-education" class="font-extrabold text-sunset-orange text-sm">Bachelor's in Engineering & Technology</span>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-slate-400 font-bold block mb-2 text-xs">Extracted Technical Skills:</span>
+              <div id="parsed-tech-skills" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div>
+              <span class="text-slate-400 font-bold block mb-2 text-xs">Extracted Soft & Employability Skills:</span>
+              <div id="parsed-soft-skills" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. DASHBOARD SUB-TAB: SKILL GAP ANALYSIS -->
+        <div id="dash-pane-skills" class="dash-pane hidden space-y-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Gauge & Readiness Card (Col 5) -->
+            <div class="glass-panel p-6 lg:col-span-5 flex flex-col justify-between items-center text-center">
+              <div>
+                <span class="text-[10px] font-black uppercase text-purple-400">Match Percentage</span>
+                <div class="my-4 relative flex items-center justify-center">
+                  <div class="w-36 h-36 rounded-full border-8 border-purple-900/40 border-t-sunset-orange border-r-sunrise-red flex flex-col items-center justify-center shadow-[0_0_30px_rgba(255,116,23,0.3)]">
+                    <span id="skills-gauge-score" class="text-4xl font-black text-soft-white">74%</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Match Score</span>
+                  </div>
+                </div>
+                <h4 id="skills-readiness-tier" class="text-sm font-extrabold text-sunset-orange mt-1">Interview Ready (Minor Gaps)</h4>
+                <p class="text-xs text-slate-400 mt-1">Estimated bridge time: <strong id="skills-est-weeks" class="text-soft-white">4 Weeks</strong></p>
+              </div>
+
+              <div class="mt-4 pt-4 border-t border-purple-900/30 w-full text-xs text-slate-400">
+                Focus on closing missing priority skills to reach 90%+ recruiter callback rates.
+              </div>
+            </div>
+
+            <!-- 3D Competency Spider Radar (Col 7) -->
+            <div class="glass-panel p-6 lg:col-span-7 flex flex-col justify-between">
+              <div class="flex items-center justify-between pb-3 border-b border-purple-900/30 mb-2">
+                <div>
+                  <h4 class="text-sm font-extrabold text-soft-white">Multi-Axis Competency Radar</h4>
+                  <p class="text-[11px] text-purple-300">Candidate strengths vs. Regional industry expectations</p>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-purple-900/50 text-purple-300 font-bold">3D Visual</span>
+              </div>
+
+              <div id="skills-radar-container" class="flex justify-center my-2"></div>
+            </div>
+          </div>
+
+          <!-- Comprehensive Skill Gap Matrix Columns -->
+          <div class="glass-panel p-6">
+            <h4 class="text-sm font-black text-soft-white mb-4">Detailed Skill Gap Matrix</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div>
+                <span class="text-xs font-bold text-emerald-400 block mb-2">✓ Matched Skills</span>
+                <div id="matrix-matched-skills" class="space-y-2"></div>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-rose-400 block mb-2">⚠️ Missing Critical (P1)</span>
+                <div id="matrix-missing-req" class="space-y-2"></div>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-amber-400 block mb-2">⚡ Recommended (P2)</span>
+                <div id="matrix-missing-rec" class="space-y-2"></div>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-purple-400 block mb-2">★ Bonus Differentiators</span>
+                <div id="matrix-bonus-skills" class="space-y-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. DASHBOARD SUB-TAB: JOB MARKET INSIGHTS -->
+        <div id="dash-pane-market" class="dash-pane hidden space-y-6">
+          <div class="glass-panel p-6">
+            <div class="flex items-center justify-between pb-4 border-b border-purple-900/30 mb-5 flex-wrap gap-2">
+              <div>
+                <h3 class="text-base font-extrabold text-soft-white">Regional Labor Demand & Skill Trends</h3>
+                <p class="text-xs text-purple-300">Aggregated real-time intelligence from regional hiring portals.</p>
+              </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+              <input type="text" id="market-filter-search" class="text-xs p-2.5 rounded-xl bg-midnight-purple border border-purple-800 text-soft-white outline-none" placeholder="Search by skill, company, or role...">
+              <select id="market-filter-location" class="text-xs p-2.5 rounded-xl bg-midnight-purple border border-purple-800 text-soft-white outline-none">
+                <option value="All Locations">All Locations (Global)</option>
+                <option value="Asia-Pacific">Asia-Pacific (India)</option>
+                <option value="North America">North America</option>
+                <option value="Europe">Europe</option>
+                <option value="Sub-Saharan Africa">Sub-Saharan Africa</option>
+                <option value="Global Remote">Global Remote</option>
+              </select>
+              <select id="market-filter-sector" class="text-xs p-2.5 rounded-xl bg-midnight-purple border border-purple-800 text-soft-white outline-none">
+                <option value="All Sectors">All Sectors</option>
+                <option value="Data Science & AI">Data Science & AI</option>
+                <option value="Web Engineering">Web Engineering</option>
+                <option value="Green Tech (SDG 8.2)">Green Tech (SDG 8.2)</option>
+                <option value="Cloud Infrastructure">Cloud Infrastructure</option>
+              </select>
+            </div>
+
+            <!-- Top Demanded Skills & Sector Donut Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+              <div class="lg:col-span-8 bg-midnight-purple/50 p-5 rounded-2xl border border-purple-900/40">
+                <h4 class="text-xs font-black uppercase text-purple-300 mb-4">Top 8 High-Demand Skills</h4>
+                <div id="market-skills-chart-container"></div>
+              </div>
+              <div class="lg:col-span-4 bg-midnight-purple/50 p-5 rounded-2xl border border-purple-900/40">
+                <h4 class="text-xs font-black uppercase text-purple-300 mb-2">Sector Vacancy Share</h4>
+                <div id="market-sector-donut-container"></div>
+              </div>
+            </div>
+
+            <!-- Filtered Jobs Table -->
+            <div class="overflow-x-auto rounded-xl border border-purple-900/40">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-midnight-purple/80 text-purple-300 uppercase text-[10px] font-black border-b border-purple-900/50">
+                    <th class="px-4 py-3">Role & Company</th>
+                    <th class="px-4 py-3">Location & Level</th>
+                    <th class="px-4 py-3">Sector</th>
+                    <th class="px-4 py-3">Salary Range</th>
+                    <th class="px-4 py-3 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="market-jobs-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. DASHBOARD SUB-TAB: LEARNING ROADMAP -->
+        <div id="dash-pane-roadmap" class="dash-pane hidden space-y-6">
+          <div class="glass-panel p-6">
+            <div class="flex items-center justify-between pb-4 border-b border-purple-900/30 mb-6 flex-wrap gap-2">
+              <div>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-sunset-orange/20 text-sunset-orange border border-sunset-orange/30 mb-1">
+                  <span>AI Personalized Pathway &bull; 100% Free Certifications</span>
+                </div>
+                <h3 class="text-base font-extrabold text-soft-white">Structured Career Pathway</h3>
+                <p class="text-xs text-purple-300">Custom tailored to bridge your exact gaps to <strong id="roadmap-target-title" class="text-sunset-orange">Target Role</strong>.</p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-mono font-bold text-soft-white bg-midnight-purple px-3 py-1.5 rounded-xl border border-purple-800" id="roadmap-total-hours">~55 Hours</span>
+                <span id="roadmap-boosted-badge" class="hidden text-xs font-bold text-emerald-300 bg-emerald-950 px-3 py-1.5 rounded-xl border border-emerald-500/40 animate-pulse">Boosted Score</span>
+              </div>
+            </div>
+
+            <!-- Milestone Pathway Container -->
+            <div id="roadmap-pathway-container"></div>
+          </div>
+        </div>
+
+        <!-- 6. DASHBOARD SUB-TAB: RECOMMENDED JOBS -->
+        <div id="dash-pane-jobs" class="dash-pane hidden space-y-6">
+          <div class="glass-panel p-6">
+            <div class="pb-4 border-b border-purple-900/30 mb-5">
+              <h3 class="text-base font-extrabold text-soft-white">AI Recommended Jobs</h3>
+              <p class="text-xs text-purple-300">Vacancies matching your verified competencies and high-growth potential.</p>
+            </div>
+
+            <!-- Jobs List Container -->
+            <div id="recommended-jobs-container" class="space-y-4"></div>
+          </div>
+        </div>
+
+        <!-- 7. DASHBOARD SUB-TAB: MY PROGRESS -->
+        <div id="dash-pane-progress" class="dash-pane hidden space-y-6">
+          <div class="glass-panel p-6 space-y-6">
+            <h3 class="text-base font-extrabold text-soft-white pb-3 border-b border-purple-900/30">
+              Learning Streak & Progress Metrics
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="glass-panel p-4 bg-midnight-purple/60">
+                <span class="text-[10px] font-black uppercase text-sunset-orange">Weekly Learning Streak</span>
+                <div class="text-2xl font-black text-soft-white mt-1">5 Days 🔥</div>
+                <span class="text-[10px] text-slate-400">Top 15% of active learners</span>
+              </div>
+              <div class="glass-panel p-4 bg-midnight-purple/60">
+                <span class="text-[10px] font-black uppercase text-neon-pink">Completed Certifications</span>
+                <div class="text-2xl font-black text-soft-white mt-1">2 Badges</div>
+                <span class="text-[10px] text-slate-400">Harvard CS50 & Kaggle</span>
+              </div>
+              <div class="glass-panel p-4 bg-midnight-purple/60">
+                <span class="text-[10px] font-black uppercase text-purple-400">Employability Level</span>
+                <div class="text-2xl font-black text-soft-white mt-1">Tier 2: Specialist</div>
+                <span class="text-[10px] text-emerald-400 font-bold">Ready for Junior Roles</span>
+              </div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-midnight-purple/40 border border-purple-900/40">
+              <h4 class="text-xs font-black uppercase text-purple-300 mb-2">UN SDG 8.6 Youth Employment Scorecard</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                By bridging your 3 critical skill gaps, your estimated unemployment duration decreases by <strong>4.8 months</strong>, unlocking a projected salary uplift of <strong>+$14,300</strong> per year.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. DASHBOARD SUB-TAB: SETTINGS -->
+        <div id="dash-pane-settings" class="dash-pane hidden space-y-6">
+          <div class="glass-panel p-6 space-y-4">
+            <h3 class="text-base font-extrabold text-soft-white pb-3 border-b border-purple-900/30">
+              Account & Profile Settings
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label class="block font-bold text-slate-400 mb-1">Full Name</label>
+                <input type="text" class="w-full p-2.5 rounded-xl bg-midnight-purple border border-purple-800 text-soft-white outline-none" value="Aarav Sharma">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-400 mb-1">Email</label>
+                <input type="email" class="w-full p-2.5 rounded-xl bg-midnight-purple border border-purple-800 text-soft-white outline-none" value="aarav.sharma@aimail.com">
+              </div>
+            </div>
+            <div class="pt-2">
+              <button onclick="alert('Settings saved successfully!')" class="btn-glow-sunrise text-xs py-2 px-5">Save Changes</button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="bg-[#080711] border-t border-purple-900/30 py-8 text-xs text-slate-400 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-extrabold text-soft-white">SKILLRISE AI</span> &bull; 
+        <span>Empowering Youth Employment (SDG Target 8.6 & 8.2)</span>
+      </div>
+      <p class="text-purple-300/80">Cinematic 3D Transformation Engine &bull; Zero-Cost Career Enablement</p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <!-- Application Scripts -->
+  <script src="/js/threeScene.js"></script>
+  <script src="/js/taxonomy.js"></script>
+  <script src="/js/nlpEngine.js"></script>
+  <script src="/js/learningCatalog.js"></script>
+  <script src="/js/marketData.js"></script>
+  <script src="/js/sampleResumes.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

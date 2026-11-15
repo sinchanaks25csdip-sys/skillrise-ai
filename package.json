@@ -1,0 +1,21 @@
+{
+  "name": "skillrise-ai",
+  "version": "2.0.0",
+  "description": "SKILLRISE AI — Youth Skill-Gap & Employability Analyzer with 3D Transformation Engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "skillrise-ai",
+    "youth-employability",
+    "skill-gap-analyzer",
+    "threejs",
+    "3d-transformation",
+    "sdg-8",
+    "career-roadmap"
+  ],
+  "author": "Antigravity Creative Team",
+  "license": "MIT"
+}

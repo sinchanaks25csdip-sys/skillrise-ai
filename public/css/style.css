@@ -1,0 +1,295 @@
+/* ==========================================================================
+   SKILLRISE AI — DESIGN SYSTEM & SUNRISE PALETTE
+   Palette:
+   - Deep Black:       #080711 (Primary Background)
+   - Midnight Purple:  #160B2A (Card Background & Atmosphere)
+   - Electric Purple:  #8B35E8 (Accent & Glow)
+   - Sunset Orange:    #FF7417 (Sunrise Energy)
+   - Sunrise Red:      #F04458 (Transformation)
+   - Neon Pink:        #F044A5 (Vibrant Atmosphere)
+   - Soft White:       #FFF0E8 (Readability & Headings)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --deep-black: #080711;
+  --midnight-purple: #160B2A;
+  --midnight-card: rgba(22, 11, 42, 0.72);
+  --electric-purple: #8B35E8;
+  --sunset-orange: #FF7417;
+  --sunrise-red: #F04458;
+  --neon-pink: #F044A5;
+  --soft-white: #FFF0E8;
+  --text-muted: #948BA8;
+  --border-subtle: rgba(139, 53, 232, 0.22);
+  --border-glow: rgba(255, 116, 23, 0.4);
+
+  --gradient-sunrise: linear-gradient(135deg, #FF7417 0%, #F04458 35%, #F044A5 70%, #8B35E8 100%);
+  --gradient-purple-pink: linear-gradient(135deg, #8B35E8 0%, #F044A5 100%);
+  --gradient-horizon: linear-gradient(180deg, rgba(8, 7, 17, 0) 0%, rgba(22, 11, 42, 0.6) 50%, rgba(255, 116, 23, 0.12) 100%);
+  
+  --shadow-glow-orange: 0 10px 30px -10px rgba(255, 116, 23, 0.45);
+  --shadow-glow-purple: 0 10px 30px -10px rgba(139, 53, 232, 0.45);
+  --shadow-glow-pink: 0 10px 30px -10px rgba(240, 68, 165, 0.45);
+  --shadow-card: 0 20px 45px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 240, 232, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--deep-black);
+  color: var(--soft-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 53, 232, 0.18), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(255, 116, 23, 0.12), transparent 70%),
+    radial-gradient(circle 300px at 0% 50%, rgba(240, 68, 165, 0.08), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Glassmorphism Surface with Sunrise Border Accent */
+.glass-panel {
+  background: var(--midnight-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 116, 23, 0.35);
+  box-shadow: 0 25px 50px -15px rgba(22, 11, 42, 0.9), 0 0 30px -10px rgba(255, 116, 23, 0.2);
+}
+
+/* Glowing Sunrise Gradient Text */
+.text-gradient-sunrise {
+  background: var(--gradient-sunrise);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.text-gradient-purple-pink {
+  background: var(--gradient-purple-pink);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* 3D Glowing Button Styles */
+.btn-glow-sunrise {
+  background: var(--gradient-sunrise);
+  color: #FFFFFF;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 0.85rem 1.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  box-shadow: var(--shadow-glow-orange);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 240, 232, 0.25);
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-glow-sunrise:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 15px 35px -5px rgba(255, 116, 23, 0.6), 0 0 20px rgba(240, 68, 88, 0.4);
+}
+.btn-glow-sunrise:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.btn-glow-purple {
+  background: rgba(139, 53, 232, 0.15);
+  color: var(--soft-white);
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.85rem 1.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--electric-purple);
+  box-shadow: var(--shadow-glow-purple);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn-glow-purple:hover {
+  background: rgba(139, 53, 232, 0.28);
+  border-color: var(--neon-pink);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(139, 53, 232, 0.5);
+}
+
+.btn-glass-subtle {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--soft-white);
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.85rem 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 240, 232, 0.12);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-glass-subtle:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 240, 232, 0.3);
+  transform: translateY(-2px);
+}
+
+/* 3D Transformation Canvas Container */
+.scene-3d-wrapper {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(139, 53, 232, 0.3);
+  background: radial-gradient(circle at 50% 60%, rgba(255, 116, 23, 0.18) 0%, rgba(22, 11, 42, 0.85) 65%, #080711 100%);
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9), inset 0 0 50px rgba(139, 53, 232, 0.25);
+}
+
+.stage-nav-pill {
+  background: rgba(22, 11, 42, 0.8);
+  border: 1px solid rgba(139, 53, 232, 0.3);
+  border-radius: 9999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+.stage-nav-pill.active {
+  background: var(--gradient-sunrise);
+  color: #FFFFFF;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(255, 116, 23, 0.4);
+}
+
+/* Floating AI Scanning Laser Effect */
+@keyframes laserScan {
+  0% { top: 0%; opacity: 0.2; }
+  50% { opacity: 0.8; box-shadow: 0 0 25px #FF7417, 0 0 45px #F044A5; }
+  100% { top: 100%; opacity: 0.2; }
+}
+
+.laser-scanner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FF7417, #F044A5, #8B35E8, transparent);
+  animation: laserScan 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* 3D Milestone Pathway (Roadmap) */
+.pathway-step {
+  position: relative;
+  padding-left: 2.75rem;
+}
+.pathway-step::before {
+  content: '';
+  position: absolute;
+  left: 0.85rem;
+  top: 2rem;
+  bottom: -1rem;
+  width: 2px;
+  background: linear-gradient(180deg, #FF7417 0%, #F044A5 50%, #8B35E8 100%);
+}
+.pathway-step:last-child::before {
+  display: none;
+}
+.pathway-node {
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  background: #080711;
+  border: 2px solid #FF7417;
+  box-shadow: 0 0 15px rgba(255, 116, 23, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #FFF0E8;
+}
+
+/* Skill Tags with Sunrise Aesthetic */
+.tag-matched {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 0.6rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.tag-missing {
+  background: rgba(240, 68, 88, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(240, 68, 88, 0.35);
+  border-radius: 0.6rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.tag-recommended {
+  background: rgba(255, 116, 23, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(255, 116, 23, 0.35);
+  border-radius: 0.6rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Custom Scrollbar for sleek dark experience */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080711;
+}
+::-webkit-scrollbar-thumb {
+  background: #160B2A;
+  border: 1px solid rgba(139, 53, 232, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B35E8;
+}
+
+/* Subtle Starfield & Particle Atmosphere Animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 0.9; transform: scale(1.1); }
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #FFF0E8;
+  animation: twinkle var(--duration, 3s) ease-in-out infinite var(--delay, 0s);
+  pointer-events: none;
+}
